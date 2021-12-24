@@ -8,7 +8,7 @@ var friction = 0.992;
 var strength = 12;
 var platformH = [];
 var platformC = [];
-
+//hola
 function setup() {
   UI = new UserInterface();
   createCanvas(w, h);
