@@ -12,7 +12,7 @@ class Pendulum {
       this.hposX = this.posX;
       this.hposY = this.posY;
       this.len;
-    }//1
+    }
     setup(){
       this.accX = 0;
       this.accY = 0;
