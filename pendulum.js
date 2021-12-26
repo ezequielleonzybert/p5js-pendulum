@@ -31,7 +31,7 @@ class Pendulum {
     
     update() {
       if(this.life < 1 && this.alive){
-        this.life += .0003;
+        this.life += .0005;
       }
 
       if(!this.hook){
