@@ -28,7 +28,7 @@ class Pendulum {
       this.alive = true;
       this.life = 1;
     }
-    //1
+    
     update() {
       if(this.life < 1 && this.alive){
         this.life += .0005;
