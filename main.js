@@ -32,17 +32,17 @@ function draw() {
   // CAMERA MOVEMENT
   // if(!pendulum.hook){
     if(pendulum.posX < w/3 - translateX){
-      translateX += pow(abs(pendulum.posX - (w/3 - translateX)),0.5);
+      translateX += pow(abs(pendulum.posX - (w/3 - translateX)),0.35);
     }else{
       if(pendulum.posX > 2*w/3 - translateX){
-        translateX -= pow(abs(pendulum.posX - (2*w/3 - translateX)),0.5);
+        translateX -= pow(abs(pendulum.posX - (2*w/3 - translateX)),0.35);
       }
     }
     if(pendulum.posY < h/3 - translateY){
-      translateY += pow(abs(pendulum.posY - (h/3 - translateY)),0.5);
+      translateY += pow(abs(pendulum.posY - (h/3 - translateY)),0.35);
     }else{
       if(pendulum.posY > 2*h/3 - translateY){
-        translateY -= pow(abs(pendulum.posY - (2*h/3 - translateY)),0.5);
+        translateY -= pow(abs(pendulum.posY - (2*h/3 - translateY)),0.35);
       }
     }
   // }
