@@ -8,6 +8,8 @@ var friction = 0.992;
 var strength = 12;
 var platformH = [];
 var platformC = [];
+var translateX=0, translateY=0;
+var sca=1;
 
 function setup() {
   UI = new UserInterface();
@@ -26,7 +28,52 @@ function draw() {
   background(190);
   UI.update();
   pendulum.update();
-  translate(-(pendulum.posX-w/2), -(pendulum.posY-h/2) );
+
+  // CAMERA MOVEMENT
+  // if(!pendulum.hook){
+    if(pendulum.posX < w/3 - translateX){
+      translateX += pow(abs(pendulum.posX - (w/3 - translateX)),0.5);
+    }else{
+      if(pendulum.posX > 2*w/3 - translateX){
+        translateX -= pow(abs(pendulum.posX - (2*w/3 - translateX)),0.5);
+      }
+    }
+    if(pendulum.posY < h/3 - translateY){
+      translateY += pow(abs(pendulum.posY - (h/3 - translateY)),0.5);
+    }else{
+      if(pendulum.posY > 2*h/3 - translateY){
+        translateY -= pow(abs(pendulum.posY - (2*h/3 - translateY)),0.5);
+      }
+    }
+  // }
+  // else{
+  //   if(pendulum.hposX < w/3 - translateX){
+  //     translateX += abs(pendulum.posX - (w/3 - translateX));
+  //   }else{
+  //     if(pendulum.hposX > 2*w/3 - translateX){
+  //       translateX -= 1;
+  //     }
+  //   }
+  //   if(pendulum.hposY < h/3 - translateY){
+  //     translateY += 1;
+  //   }else{
+  //     if(pendulum.hposY > 2*h/3 + translateY){
+  //       translateY -=1;
+  //     }
+  //   }
+  // }
+  translate(translateX, translateY);
+
+  // if(pendulum.len > sca * 200 && sca > .7){
+  //   sca -= .01;
+  // }
+  // else{
+  //   if(pendulum.len < sca * 200 && sca < 1){
+  //     sca += .01;
+  //   }
+  // }
+  // scale(sca);
+
   for(i = 0; i < platformH.length; i++){
     platformH[i].draw();
     platformC[i].draw();

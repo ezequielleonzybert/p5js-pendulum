@@ -3,6 +3,7 @@ class Pendulum {
       // BOB
       this.r = h / 20;
       this.colliding = false;
+      this.stamina = 50;
       // HARPOON
       this.haccX = 0;
       this.haccY = g;
@@ -10,7 +11,7 @@ class Pendulum {
       this.hvelY = 0;
       this.hposX = this.posX;
       this.hposY = this.posY;
-      this.stamina = 50;
+      this.len;
     }
     setup(){
       this.accX = 0;
