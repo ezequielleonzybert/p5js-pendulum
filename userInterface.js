@@ -40,21 +40,22 @@ class UserInterface {
         }
     }
     draw() {
-        if (!(frameCount % 5)) {
-            fps = round(frameRate());
-        }
-        textSize(15);
-        text("FPS = " + fps, 20, 30);
-        fill(220);
-        circle(this.butL.x, this.butL.y, this.butL.r * 2);
-        circle(this.butR.x, this.butR.y, this.butR.r * 2);
-        rect(this.reset.x,this.reset.y,this.reset.w,this.reset.h,20,20,0,0);
-        fill(180);
-        textSize(35);
-        text(this.reset.text,w/2-56,h-10);
-        fill('black');
-        rect(this.life.x-2, this.life.y-2, this.life.w+4, this.life.h+4, 13,13,13,13)
-        fill('yellow');
-        rect(this.life.x, this.life.y, this.life.w * pendulum.life, this.life.h, 11,10,10,10)
+        // noStroke();
+        // if (!(frameCount % 5)) {
+        //     fps = round(frameRate());
+        // }
+        // textSize(15);
+        // text("FPS = " + fps, 20, 30);
+        // fill(220);
+        // circle(this.butL.x, this.butL.y, this.butL.r * 2);
+        // circle(this.butR.x, this.butR.y, this.butR.r * 2);
+        // rect(this.reset.x,this.reset.y,this.reset.w,this.reset.h,20,20,0,0);
+        // fill(180);
+        // textSize(35);
+        // text(this.reset.text,w/2-56,h-10);
+        // fill('black');
+        // rect(this.life.x-2, this.life.y-2, this.life.w+4, this.life.h+4, 13,13,13,13)
+        // fill('yellow');
+        // rect(this.life.x, this.life.y, this.life.w * pendulum.life, this.life.h, 11,10,10,10)
     }
 }
