@@ -54,12 +54,12 @@ class Pendulum {
         var d1b = dist(l.x0, l.y0, px2, py2);
         var d2b = dist(l.x1, l.y1, px2, py2);
         if(d1a + d2a > l.len - 1 && d1a + d2a < l.len + 1){
-          this.velX += -(2*this.velX*sin(l.ang));
-          this.velY += -(2*this.velY*cos(l.ang));
+          this.velX =  (this.velY * sin(l.ang) + this.velX * cos(l.ang));
+          this.velY = -(this.velY * cos(l.ang) + this.velX * sin(l.ang)); 
         }
         if(d1b + d2b > l.len - 1 && d1b + d2b < l.len + 1){
-          this.velX += -(2*this.velX*sin(l.ang));
-          this.velY += -(2*this.velY*cos(l.ang));
+          this.velX =  -(this.velY * sin(l.ang) + this.velX * sin(l.ang));
+          this.velY =   (this.velY * cos(l.ang) + this.velX * sin(l.ang)); 
         }
       }
 

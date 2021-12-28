@@ -24,12 +24,18 @@ function setup() {
   // }
   
   // COLLIDING LINES
-  lineCollide.push(new LineCollide(50,50,1500,50));
-  lineCollide.push(new LineCollide(50,350,1500,350));
-  lineCollide.push(new LineCollide(50,50,50,350));
-  lineCollide.push(new LineCollide(1500,50,1500,350));
+  lineCollide.push(new LineCollide(50,50,1500,50)); //up
+  lineCollide.push(new LineCollide(50,50,50,350)); //left
+  lineCollide.push(new LineCollide(1500,50,1500,350)); //right
+  //lineCollide.push(new LineCollide(50,350,1500,700)); //down
+  var r = [];
+  r[0] = 0;
+  for(var i = 0; i < 5; i++){
+    r[i+1] = random();
+    lineCollide.push(new LineCollide(i*300, 350 + r[i]*100, (i+1)*300, 350 + r[i+1]*100));
+  }
 
-  platformH.push(new PlatformHook(w/6,h/4, 7*w/5, h/15));
+  platformH.push(new PlatformHook(w/6,h/4, 9*w/5, h/15));
 
   pendulum = new Pendulum();
   pendulum.setup(w/3.5,h/2);
@@ -57,10 +63,7 @@ function draw() {
       }
     }
    translate(translateX, translateY);
-
-  for(var i = 0; i < platformC.length; i++){
-    platformC[i].draw();
-  }
+   
   for(var i = 0; i < platformH.length; i++){
     platformH[i].draw();
   }
