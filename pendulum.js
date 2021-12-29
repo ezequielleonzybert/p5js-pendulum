@@ -53,6 +53,8 @@ class Pendulum {
           let bounce = 10**(-velMag)/10+0.9;
           vx = (vy * sin(l.ang*2) + vx * cos(l.ang*2)) * .8;
           vy = -(vy * cos(l.ang*2) + vx * sin(l.ang*2)) * .8;
+          // vx = vx*(cos(l.ang) - sin(l.ang)) * .9;
+          // vy = vy*(sin(l.ang) - cos(l.ang)) * .9;
         }
         this.velX = vx;
         this.velY = vy;
@@ -78,11 +80,14 @@ class Pendulum {
             this.len > 50
           ) {
             this.hook = true;
-            this.m = (this.posX - this.hposX) / abs(this.posY - this.hposY);
+            this.ang = atan2(this.posX - this.hposX, this.posY - this.hposY);
+            this.m = (this.posX - this.hposX) / abs(this.posY - this.hposY); //this is not good
             this.mp = (this.posX - this.posXP) / abs(this.posY - this.posYP);
-            this.ang = atan(this.m);
-            this.velA = sqrt((pow(this.velX,2) + pow(this.velY,2)) / pow(this.len,2)) * 
-              (atan(this.mp) - atan(this.m));
+            if(this.posY - this.posYP != 0) 
+              this.velA = sqrt((this.velX**2 + this.velY**2) / this.len**2) * (atan(this.mp) - atan(this.m));
+            else
+              this.velA = sqrt((this.velX**2 + this.velY**2) / this.len**2) * -atan(this.m);
+            //this.ang = atan(this.m);
           }
         }            
       }
@@ -94,7 +99,6 @@ class Pendulum {
     // HOOKED PHYSICS
     // BOB COLLISIONS
     else{
-      // PENDULUM MOVEMENT
       for(var i = 0; i < lineCollide.length; i++){
         let l = lineCollide[i];
         if(!this.colliding){
@@ -104,11 +108,20 @@ class Pendulum {
           }
         }
       } 
+      
+      // PENDULUM MOVEMENT
       this.accA = -g * sin(this.ang) / this.len;
-      if(!this.colliding) this.velA += this.accA;
+
+      // console.log("ang " + this.ang);
+      // console.log("velA " + this.velA);
+      
+      if(!this.colliding){
+        this.velA += this.accA;
+      } 
       this.ang += this.velA; 
       this.posX = this.len * sin(this.ang) + this.hposX;
-      this.posY = this.len * cos(this.ang) + this.hposY;          
+      this.posY = this.len * cos(this.ang) + this.hposY;     
+      
     }
   }
     

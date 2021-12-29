@@ -34,7 +34,7 @@ function setup() {
   platformH.push(new PlatformHook(w/6,h/4, 9*w/5, h/15));
 
   pendulum = new Pendulum();
-  pendulum.setup(w/3.5,h/2);
+  pendulum.setup(w/2,h/2);
 }
 
 function draw() {
