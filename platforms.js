@@ -22,7 +22,7 @@ class LineCollide{
     this.m = (y1 - y0) / (x1 - x0); 
     this.b = (x1*y0 - x0*y1) / (x1 - x0); 
     this.ang = atan2(y1 - y0, x1 - x0);
-    this.len = sqrt(pow(x1 - x0,2)+pow(y1 - y0,2));
+    this.len = sqrt((x1 - x0)**2 + (y1 - y0)**2);
   }
   f(x){
     return this.m * x + this.b;

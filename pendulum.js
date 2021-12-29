@@ -45,9 +45,9 @@ class Pendulum {
       // BOB COLLISIONS
       for(var i = 0; i < lineCollide.length; i++){
         let l = lineCollide[i];
-        if(this.collide(l.x0,l.y0, l.x1, l.y1, this.posX, this.posY, this.r)){
-          this.velX = sqrt((this.velY * sin(l.ang))**2 + (this.velX * cos(l.ang))**2);
-          this.velY = -sqrt((this.velY * cos(l.ang))**2 + (this.velX * sin(l.ang))**2); 
+        if(this.collide(l.x0, l.y0, l.x1, l.y1, this.posX, this.posY, this.r)){
+          this.velX =   (this.velY * sin(l.ang*2)) + (this.velX * cos(l.ang*2));
+          this.velY = -((this.velY * cos(l.ang*2)) + (this.velX * sin(l.ang*2)));
         }
       }
       

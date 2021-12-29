@@ -20,8 +20,8 @@ function setup() {
   
   // COLLIDING LINES
   lineCollide.push(new LineCollide(50,50,1500,50)); //up
-  lineCollide.push(new LineCollide(50,50,60,350)); //left
-  lineCollide.push(new LineCollide(1500,50,1550,350)); //right
+  lineCollide.push(new LineCollide(50,50,40,350)); //left
+  lineCollide.push(new LineCollide(1500,50,1500,500)); //right
   //lineCollide.push(new LineCollide(50,350,1500,700)); //down
   var r = [];
   r[0] = 0;
