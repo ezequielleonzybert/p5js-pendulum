@@ -45,70 +45,20 @@ class Pendulum {
       // BOB COLLISIONS
       for(var i = 0; i < lineCollide.length; i++){
         let l = lineCollide[i];
-        if(this.collide(l.x0, l.y0, l.x1, l.y1, this.posX+this.velX, this.posY+this.velY, this.r) && !this.colliding){
+        let vx = this.velX;
+        let vy = this.velY;
+        if(this.collide(l.x0, l.y0, l.x1, l.y1, this.posX+vx, this.posY+vy, this.r) && !this.colliding){
           this.colliding = true;
-          let velMag = sqrt(this.velX**2 + this.velY**2);
-          let bounce = (0.2/(velMag+1))+0.8;
-          //let bounce = 1;
-          this.velX =   (this.velY * sin(l.ang*2)) + (this.velX * cos(l.ang*2)) * bounce;
-          this.velY = -((this.velY * cos(l.ang*2)) + (this.velX * sin(l.ang*2))) * bounce;
+          //let bounce = (0.2/(velMag+1))+0.8;
+          let bounce = 1;
+          vx = (vy * sin(l.ang*2) + vx * cos(l.ang*2));
+          vy = -(vy * cos(l.ang*2) + vx * sin(l.ang*2));
+          console.log(l.ang * 180/PI);
         }
+        this.velX = vx;
+        this.velY = vy;
       }
       this.colliding = false;
-      
-
-      // for(var i = 0; i < lineCollide.length; i++){
-      //   var l = lineCollide[i];
-      //   var px1 = this.posX+this.velX + sin(l.ang)*this.r;
-      //   var py1 = this.posY+this.velY + cos(l.ang)*this.r;
-      //   var d1a = dist(l.x0, l.y0, px1, py1);
-      //   var d2a = dist(l.x1, l.y1, px1, py1);
-      //   var px2 = this.posX+this.velX - sin(l.ang)*this.r;
-      //   var py2 = this.posY+this.velY - cos(l.ang)*this.r;
-      //   var d1b = dist(l.x0, l.y0, px2, py2);
-      //   var d2b = dist(l.x1, l.y1, px2, py2);
-      //   if(d1a + d2a >= l.len - .1 && d1a + d2a <= l.len + .1){
-      //     this.velX =  (this.velY * sin(l.ang) + this.velX * cos(l.ang));
-      //     this.velY = -(this.velY * cos(l.ang) + this.velX * sin(l.ang)); 
-          
-      //   }
-      //   if(d1b + d2b >= l.len - .1 && d1b + d2b <= l.len + .1){
-      //     this.velX =  -(this.velY * sin(l.ang) + this.velX * sin(l.ang));
-      //     this.velY =   (this.velY * cos(l.ang) + this.velX * sin(l.ang)); 
-      //   }
-      // }
-
-      // for(var i = 0; i < platformC.length; i++){
-      //   if(
-      //     this.posX + this.velX > platformC[i].x - this.r &&
-      //     this.posX + this.velX < platformC[i].w + platformC[i].x + this.r &&
-      //     this.posY + this.velY > platformC[i].y - this.r &&
-      //     this.posY + this.velY < platformC[i].h + platformC[i].y + this.r
-      //   ){
-      //     if(
-      //       this.posX - this.velX < platformC[i].x - this.r || 
-      //       this.posX - this.velX > platformC[i].w + platformC[i].x + this.r
-      //       ){
-      //       this.velX *= -bounce;
-      //     }
-      //     else{
-      //       if(
-      //         this.posY - this.velY < platformC[i].y - this.r ||
-      //         this.posY - this.velY > platformC[i].h + platformC[i].y + this.r
-      //         ){
-      //         this.velY *= -bounce;
-      //       }
-      //     }
-      //     this.colliding = true;
-      //     if(this.alive){
-      //       this.life -= (abs(this.velX) + abs(this.velY))/this.stamina;
-      //       if(this.life <= 0){
-      //         this.alive = false;
-      //         this.life = 0;
-      //       }
-      //     }            
-      //   }
-      // }
     
       // HARPOON SHOT:
       if (!this.trig) {
@@ -154,42 +104,7 @@ class Pendulum {
         }
       }
       this.colliding = false;
-      // for(var i = 0; i < lineCollide.length; i++){
-      //   var l = lineCollide[i];
-      //   var px1 = this.posX+this.velX + sin(l.ang)*this.r;
-      //   var py1 = this.posY+this.velY + cos(l.ang)*this.r;
-      //   var d1a = dist(l.x0, l.y0, px1, py1);
-      //   var d2a = dist(l.x1, l.y1, px1, py1);
-      //   var px2 = this.posX+this.velX - sin(l.ang)*this.r;
-      //   var py2 = this.posY+this.velY - cos(l.ang)*this.r;
-      //   var d1b = dist(l.x0, l.y0, px2, py2);
-      //   var d2b = dist(l.x1, l.y1, px2, py2);
-      //   if(d1a + d2a > l.len - 1 && d1a + d2a < l.len + 1){
-      //     this.velA *= -1;
-      //   }
-      //   if(d1b + d2b > l.len - 1 && d1b + d2b < l.len + 1){
-      //     this.velA *= -1;
-      //   }
-      // }
-      // this.colliding = false;
-      // for(let i = 0 ; i< platformC.length; i++){
-      //   if(
-      //     this.posX + this.r >= platformC[i].x &&
-      //     this.posX - this.r <= platformC[i].x + platformC[i].w &&
-      //     this.posY + this.r >= platformC[i].y &&
-      //     this.posY - this.r <= platformC[i].y + platformC[i].h             
-      //   ){
-      //     this.velA *= -1;
-      //     this.colliding = true;
-      //     if(this.alive){
-      //       this.life -= (abs(this.velX) + abs(this.velY))/this.stamina;
-      //       if(this.life <= 0){
-      //         this.alive = false;
-      //         this.life = 0;
-      //       }
-      //     }            
-      //   } 
-      // }
+      
       // PENDULUM MOVEMENT
       this.accA = -g * sin(this.ang) / this.len;
       this.velA += this.accA;
@@ -203,7 +118,7 @@ class Pendulum {
     noStroke();
     fill(255);
     circle(this.posX, this.posY, this.r * 2);
-    circle(this.hposX, this.hposY, this.r/2);
+    if(this.trig) circle(this.hposX, this.hposY, this.r/2);
   }
 
   collide(x1 , y1 , x2 , y2 , cx , cy , radius){

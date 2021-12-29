@@ -40,6 +40,7 @@ class UserInterface {
         }
     }
     draw() {
+        
         // noStroke();
         // if (!(frameCount % 5)) {
         //     fps = round(frameRate());
