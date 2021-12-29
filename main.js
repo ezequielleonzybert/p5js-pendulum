@@ -4,7 +4,7 @@ var g = 0.4;
 var w = 800;
 var h = 400;
 //var bounce = 0.9;
-var friction = 0.992;
+var friction = 1;
 var strength = 12;
 var platformH = [];
 var platformC = [];
@@ -20,15 +20,16 @@ function setup() {
   
   // COLLIDING LINES
   lineCollide.push(new LineCollide(50,50,1500,50)); //up
-  lineCollide.push(new LineCollide(50,50,40,1000)); //left
-  lineCollide.push(new LineCollide(1500,50,1500,1000)); //right
-  //lineCollide.push(new LineCollide(50,350,1500,700)); //down
-  var r = [];
-  r[0] = random();
-  for(var i = 0; i < 5; i++){
-    r[i+1] = random();
-    lineCollide.push(new LineCollide(i*300, 350 + r[i]*100, (i+1)*300, 350 + r[i+1]*100));
-  }
+  lineCollide.push(new LineCollide(50,50,50,350)); //left
+  lineCollide.push(new LineCollide(1500,50,1500,350)); //right
+  lineCollide.push(new LineCollide(50,350,1500,350)); //down
+  
+  // var r = [];
+  // r[0] = random();
+  // for(var i = 0; i < 5; i++){
+  //   r[i+1] = random();
+  //   lineCollide.push(new LineCollide(i*300, 350 + r[i]*100, (i+1)*300, 350 + r[i+1]*100));
+  // }
 
   platformH.push(new PlatformHook(w/6,h/4, 9*w/5, h/15));
 
@@ -71,6 +72,38 @@ function draw() {
   UI.draw();
 }
 
+function keyPressed() {
+  if(!pendulum.hook){
+    if (keyCode === LEFT_ARROW) {
+      UI.butL.pres = true;
+      pendulum.trig = true;
+      pendulum.hposX = pendulum.posX;
+      pendulum.hposY = pendulum.posY;
+      pendulum.hvelX = -strength;
+      pendulum.hvelY = -strength;
+    } 
+    if (keyCode === RIGHT_ARROW) {
+      UI.butR.pres = true;
+      pendulum.trig = true;
+      pendulum.hposX = pendulum.posX;
+      pendulum.hposY = pendulum.posY;
+      pendulum.hvelX = strength;
+      pendulum.hvelY = -strength;
+    }
+  }
+}
+
+function keyReleased() {
+  if (keyCode === LEFT_ARROW || keyCode === RIGHT_ARROW) {
+    if(pendulum.hook){      
+      pendulum. hook = false;
+      pendulum.velX = pendulum.velA * cos(pendulum.ang) * pendulum.len;
+      pendulum.velY = -pendulum.velA * sin(pendulum.ang) * pendulum.len;
+    }
+    pendulum.trig = false;
+  }  
+}
+
 /*function mousePressed() {
   if(pendulum && !pendulum.hook){
     if (frameCount > prevShot + 15 || !prevShot) {
@@ -105,35 +138,3 @@ function draw() {
     pendulum.setup();
   }
 }*/
-
-function keyPressed() {
-  if(!pendulum.hook){
-    if (keyCode === LEFT_ARROW) {
-      UI.butL.pres = true;
-      pendulum.trig = true;
-      pendulum.hposX = pendulum.posX;
-      pendulum.hposY = pendulum.posY;
-      pendulum.hvelX = -strength;
-      pendulum.hvelY = -strength;
-    } 
-    if (keyCode === RIGHT_ARROW) {
-      UI.butR.pres = true;
-      pendulum.trig = true;
-      pendulum.hposX = pendulum.posX;
-      pendulum.hposY = pendulum.posY;
-      pendulum.hvelX = strength;
-      pendulum.hvelY = -strength;
-    }
-  }
-}
-
-function keyReleased() {
-  if (keyCode === LEFT_ARROW || keyCode === RIGHT_ARROW) {
-    if(pendulum.hook){      
-      pendulum. hook = false;
-      pendulum.velX = pendulum.velA * cos(pendulum.ang) * pendulum.len;
-      pendulum.velY = -pendulum.velA * sin(pendulum.ang) * pendulum.len;
-    }
-    pendulum.trig = false;
-  }  
-}

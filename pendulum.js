@@ -34,13 +34,13 @@ class Pendulum {
     if(this.life < 1 && this.alive){
       this.life += .0005;
     } 
+    this.colliding = false;
     // UNHOOKED PHYSICS
     if(!this.hook){
       this.accY = g;
       this.accX = 0;
       this.velY = this.velY * friction + this.accY;
       this.velX *= friction;
-      this.colliding = false;
       
       // BOB COLLISIONS
       for(var i = 0; i < lineCollide.length; i++){
@@ -49,16 +49,14 @@ class Pendulum {
         let vy = this.velY;
         if(this.collide(l.x0, l.y0, l.x1, l.y1, this.posX+vx, this.posY+vy, this.r) && !this.colliding){
           this.colliding = true;
-          //let bounce = (0.2/(velMag+1))+0.8;
-          let bounce = 1;
-          vx = (vy * sin(l.ang*2) + vx * cos(l.ang*2));
-          vy = -(vy * cos(l.ang*2) + vx * sin(l.ang*2));
-          console.log(l.ang * 180/PI);
+          let velMag = sqrt(vx**2 + vy**2);
+          let bounce = 10**(-velMag)/10+0.9;
+          vx = (vy * sin(l.ang*2) + vx * cos(l.ang*2)) * .8;
+          vy = -(vy * cos(l.ang*2) + vx * sin(l.ang*2)) * .8;
         }
         this.velX = vx;
         this.velY = vy;
       }
-      this.colliding = false;
     
       // HARPOON SHOT:
       if (!this.trig) {
@@ -96,21 +94,21 @@ class Pendulum {
     // HOOKED PHYSICS
     // BOB COLLISIONS
     else{
+      // PENDULUM MOVEMENT
       for(var i = 0; i < lineCollide.length; i++){
         let l = lineCollide[i];
-        if(this.collide(l.x0, l.y0, l.x1, l.y1, this.posX+this.velX, this.posY+this.velY, this.r) && !this.colliding){
-          this.colliding = true;
-          this.velA *= -1;
+        if(!this.colliding){
+          if(this.collide(l.x0, l.y0, l.x1, l.y1, this.posX+this.velX, this.posY+this.velY, this.r)){
+            this.colliding = true;
+            this.velA *= -1;
+          }
         }
-      }
-      this.colliding = false;
-      
-      // PENDULUM MOVEMENT
+      } 
       this.accA = -g * sin(this.ang) / this.len;
-      this.velA += this.accA;
+      if(!this.colliding) this.velA += this.accA;
       this.ang += this.velA; 
       this.posX = this.len * sin(this.ang) + this.hposX;
-      this.posY = this.len * cos(this.ang) + this.hposY;
+      this.posY = this.len * cos(this.ang) + this.hposY;          
     }
   }
     
@@ -161,7 +159,6 @@ class Pendulum {
     dy = cy - (y1 + (dy21 * d))
   
     let magnitude = sqrt((dx * dx) + (dy * dy)) // Square Root
-  
     if (radius >= magnitude){
   
       result = true // True = Collision Occurred
