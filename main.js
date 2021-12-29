@@ -3,7 +3,7 @@ var prevShot = 0;
 var g = 0.4;
 var w = 800;
 var h = 400;
-var bounce = 0.8;
+//var bounce = 0.9;
 var friction = 0.992;
 var strength = 12;
 var platformH = [];
@@ -20,11 +20,11 @@ function setup() {
   
   // COLLIDING LINES
   lineCollide.push(new LineCollide(50,50,1500,50)); //up
-  lineCollide.push(new LineCollide(50,50,40,350)); //left
-  lineCollide.push(new LineCollide(1500,50,1500,500)); //right
+  lineCollide.push(new LineCollide(50,50,40,1000)); //left
+  lineCollide.push(new LineCollide(1500,50,1500,1000)); //right
   //lineCollide.push(new LineCollide(50,350,1500,700)); //down
   var r = [];
-  r[0] = 0;
+  r[0] = random();
   for(var i = 0; i < 5; i++){
     r[i+1] = random();
     lineCollide.push(new LineCollide(i*300, 350 + r[i]*100, (i+1)*300, 350 + r[i+1]*100));
@@ -71,7 +71,7 @@ function draw() {
   UI.draw();
 }
 
-function mousePressed() {
+/*function mousePressed() {
   if(pendulum && !pendulum.hook){
     if (frameCount > prevShot + 15 || !prevShot) {
     prevShot = frameCount;
@@ -104,7 +104,7 @@ function mousePressed() {
   if(UI.reset.pres){
     pendulum.setup();
   }
-}
+}*/
 
 function keyPressed() {
   if(!pendulum.hook){
