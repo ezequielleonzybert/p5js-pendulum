@@ -17,16 +17,11 @@ function setup() {
   UI = new UserInterface();
   createCanvas(w, h);
   noStroke();
-
-  // for(var i = 0; i < 10; i++){
-  //   platformH[i] = new PlatformHook(random()*3000-1500, random()*1000-500, w/2, h / 20);
-  //   platformC[i] = new PlatformCollide((i-5)*500, random()*50+h-50, 500,h/20);
-  // }
   
   // COLLIDING LINES
   lineCollide.push(new LineCollide(50,50,1500,50)); //up
-  lineCollide.push(new LineCollide(50,50,50,350)); //left
-  lineCollide.push(new LineCollide(1500,50,1500,350)); //right
+  lineCollide.push(new LineCollide(50,50,60,350)); //left
+  lineCollide.push(new LineCollide(1500,50,1550,350)); //right
   //lineCollide.push(new LineCollide(50,350,1500,700)); //down
   var r = [];
   r[0] = 0;
@@ -47,23 +42,23 @@ function draw() {
   pendulum.update();
 
   // CAMERA MOVEMENT
-  // if(!pendulum.hook){
-    if(pendulum.posX < w/2 - translateX){
-      translateX += pow(abs(pendulum.posX - (w/2 - translateX)),2)*0.0001;
-    }else{
-      if(pendulum.posX > w/2 - translateX){
-        translateX -= pow(abs(pendulum.posX - (w/2 - translateX)),2)*0.0001;
-      }
+  if(pendulum.posX < w/2 - translateX){
+    translateX += pow(abs(pendulum.posX - (w/2 - translateX)),2)*0.0001;
+  }else{
+    if(pendulum.posX > w/2 - translateX){
+      translateX -= pow(abs(pendulum.posX - (w/2 - translateX)),2)*0.0001;
     }
-    if(pendulum.posY < h/4 - translateY){
-      translateY += pow(abs(pendulum.posY - (h/4 - translateY)),0.35);
-    }else{
-      if(pendulum.posY > 3*h/4 - translateY){
-        translateY -= pow(abs(pendulum.posY - (3*h/4 - translateY)),0.35);
-      }
+  }
+  if(pendulum.posY < h/4 - translateY){
+    translateY += pow(abs(pendulum.posY - (h/4 - translateY)),0.35);
+  }else{
+    if(pendulum.posY > 3*h/4 - translateY){
+      translateY -= pow(abs(pendulum.posY - (3*h/4 - translateY)),0.35);
     }
-   translate(translateX, translateY);
-   
+  }
+  translate(translateX, translateY);
+  
+  //LEVEL DRAWING
   for(var i = 0; i < platformH.length; i++){
     platformH[i].draw();
   }
