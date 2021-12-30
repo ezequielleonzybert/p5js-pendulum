@@ -49,8 +49,8 @@ class Pendulum {
         let vy = this.velY;
         if(this.collide(l.x0, l.y0, l.x1, l.y1, this.posX+vx, this.posY+vy, this.r) && !this.colliding){
           this.colliding = true;
-          let velMag = sqrt(vx**2 + vy**2);
-          let bounce = 10**(-velMag)/10+0.9;
+          //let velMag = sqrt(vx**2 + vy**2);
+          //let bounce = 10**(-velMag)/10+0.9;
           vx = (vy * sin(l.ang*2) + vx * cos(l.ang*2)) * .8;
           vy = -(vy * cos(l.ang*2) + vx * sin(l.ang*2)) * .8;
           // vx = vx*(cos(l.ang) - sin(l.ang)) * .9;
@@ -81,13 +81,10 @@ class Pendulum {
           ) {
             this.hook = true;
             this.ang = atan2(this.posX - this.hposX, this.posY - this.hposY);
-            this.m = (this.posX - this.hposX) / abs(this.posY - this.hposY); //this is not good
-            this.mp = (this.posX - this.posXP) / abs(this.posY - this.posYP);
-            if(this.posY - this.posYP != 0) 
-              this.velA = sqrt((this.velX**2 + this.velY**2) / this.len**2) * (atan(this.mp) - atan(this.m));
-            else
-              this.velA = sqrt((this.velX**2 + this.velY**2) / this.len**2) * -atan(this.m);
-            //this.ang = atan(this.m);
+            this.angPre = atan2(this.posX - this.posXP, this.posY - this.posYP);
+            var velMag = sqrt(this.velY**2 + this.velX**2);
+            let plus = 1.3;
+            this.velA = velMag * sin(this.angPre - this.ang)/this.len * plus;
           }
         }            
       }
