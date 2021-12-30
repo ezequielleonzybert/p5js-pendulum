@@ -42,6 +42,11 @@ class Pendulum {
       this.velY = this.velY * friction + this.accY;
       this.velX *= friction;
       
+      this.posXP = this.posX;
+      this.posYP = this.posY;
+      this.posX += this.velX;
+      this.posY += this.velY;
+      
       // BOB COLLISIONS
       for(var i = 0; i < lineCollide.length; i++){
         let l = lineCollide[i];
@@ -88,10 +93,6 @@ class Pendulum {
           }
         }            
       }
-      this.posXP = this.posX;
-      this.posYP = this.posY;
-      this.posX += this.velX;
-      this.posY += this.velY;
     }
     // HOOKED PHYSICS
     // BOB COLLISIONS
