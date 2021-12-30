@@ -16,7 +16,7 @@ class Pendulum {
   }
   setup(x,y){
     this.accX = 0;
-    this.accY = 0;
+    this.accY = g;
     this.velX = 0;
     this.velY = 0;
     this.posX = x;
@@ -30,98 +30,96 @@ class Pendulum {
     this.life = 1;
   }
   
-  update() {
-    if(this.life < 1 && this.alive){
-      this.life += .0005;
-    } 
-    this.colliding = false;
-    // UNHOOKED PHYSICS
-    if(!this.hook){
-      this.accY = g;
-      this.accX = 0;
-      this.velY = this.velY * friction + this.accY;
-      this.velX *= friction;
-      
-      this.posXP = this.posX;
-      this.posYP = this.posY;
-      this.posX += this.velX;
-      this.posY += this.velY;
-      
-      // BOB COLLISIONS
-      for(var i = 0; i < lineCollide.length; i++){
-        let l = lineCollide[i];
-        let vx = this.velX;
-        let vy = this.velY;
-        if(this.collide(l.x0, l.y0, l.x1, l.y1, this.posX+vx, this.posY+vy, this.r) && !this.colliding){
-          this.colliding = true;
-          //let velMag = sqrt(vx**2 + vy**2);
-          //let bounce = 10**(-velMag)/10+0.9;
-          vx = (vy * sin(l.ang*2) + vx * cos(l.ang*2)) * .8;
-          vy = -(vy * cos(l.ang*2) + vx * sin(l.ang*2)) * .8;
-          // vx = vx*(cos(l.ang) - sin(l.ang)) * .9;
-          // vy = vy*(sin(l.ang) - cos(l.ang)) * .9;
-        }
+update() {
+  if(this.life < 1 && this.alive){
+    this.life += .0005;
+  } 
+  this.colliding = false;
+  // UNHOOKED PHYSICS
+  if(!this.hook){
+    this.velY = this.velY * friction + this.accY;
+    this.velX *= friction;
+
+    // BOB COLLISIONS
+    for(var i = 0; i < lineCollide.length; i++){
+      let l = lineCollide[i];
+      let vx = this.velX;
+      let vy = this.velY;
+      if(this.collide(l.x0, l.y0, l.x1, l.y1, this.posX+vx, this.posY+vy, this.r) && !this.colliding){
+        this.colliding = true;
+        //let velMag = sqrt(vx**2 + vy**2);
+        //let bounce = 10**(-velMag)/10+0.9;
+        vx = (vy * sin(l.ang*2) + vx * cos(l.ang*2)) * .8;
+        vy = -(vy * cos(l.ang*2) + vx * sin(l.ang*2)) * .8;
+        // vx = vx*(cos(l.ang) - sin(l.ang)) * .9;
+        // vy = vy*(sin(l.ang) - cos(l.ang)) * .9;
         this.velX = vx;
         this.velY = vy;
       }
-    
-      // HARPOON SHOT:
-      if (!this.trig) {
-        this.hposX = this.posX;
-        this.hposY = this.posY;
-      } 
-      else {
-        this.hvelY += this.haccY*0.5;
-        this.hposX += this.hvelX;
-        this.hposY += this.hvelY;
-        this.len = sqrt(pow(this.posX-this.hposX,2)+pow(this.posY-this.hposY,2));
-        // HARPOON PLATFORM COLLISION
-        for(var i = 0; i < platformH.length; i++){
-          if (
-            this.hposX > platformH[i].x &&
-            this.hposX < platformH[i].x + platformH[i].w &&
-            this.hposY > platformH[i].y &&
-            this.hposY < platformH[i].y + platformH[i].h &&
-            this.len > 50
-          ) {
-            this.hook = true;
-            this.ang = atan2(this.posX - this.hposX, this.posY - this.hposY);
-            this.angPre = atan2(this.posX - this.posXP, this.posY - this.posYP);
-            var velMag = sqrt(this.velY**2 + this.velX**2);
-            let plus = 1.3;
-            this.velA = velMag * sin(this.angPre - this.ang)/this.len * plus;
-          }
-        }            
-      }
     }
-    // HOOKED PHYSICS
-    // BOB COLLISIONS
-    else{
-      for(var i = 0; i < lineCollide.length; i++){
-        let l = lineCollide[i];
-        if(!this.colliding){
-          if(this.collide(l.x0, l.y0, l.x1, l.y1, this.posX+this.velX, this.posY+this.velY, this.r)){
-            this.colliding = true;
-            this.velA *= -1;
-          }
-        }
-      } 
-      
-      // PENDULUM MOVEMENT
-      this.accA = -g * sin(this.ang) / this.len;
+    this.posXP = this.posX;
+    this.posYP = this.posY;
+    this.posX += this.velX;
+    this.posY += this.velY;
 
-      // console.log("ang " + this.ang);
-      // console.log("velA " + this.velA);
-      
-      if(!this.colliding){
-        this.velA += this.accA;
-      } 
-      this.ang += this.velA; 
-      this.posX = this.len * sin(this.ang) + this.hposX;
-      this.posY = this.len * cos(this.ang) + this.hposY;     
-      
-    }
+    // HARPOON SHOT:
+    if (!this.trig) {
+      this.hposX = this.posX;
+      this.hposY = this.posY;
+    } 
+    else {
+      this.hvelY += this.haccY*0.5;
+      this.hposX += this.hvelX;
+      this.hposY += this.hvelY;
+      this.len = sqrt(pow(this.posX-this.hposX,2)+pow(this.posY-this.hposY,2));
+      // HARPOON PLATFORM COLLISION
+      for(var i = 0; i < platformH.length; i++){
+        if (
+          this.hposX > platformH[i].x &&
+          this.hposX < platformH[i].x + platformH[i].w &&
+          this.hposY > platformH[i].y &&
+          this.hposY < platformH[i].y + platformH[i].h &&
+          this.len > 50
+        ) {
+          this.hook = true;
+          this.ang = atan2(this.posX - this.hposX, this.posY - this.hposY);
+          this.angPre = atan2(this.posX - this.posXP, this.posY - this.posYP);
+          var velMag = sqrt(this.velY**2 + this.velX**2);
+          let plus = 1.2;
+          this.velA = velMag * sin(this.angPre - this.ang)/this.len * plus;
+          break;
+        }
+      }            
+    }  
   }
+  // HOOKED PHYSICS
+  // BOB COLLISIONS
+  else{
+    for(var i = 0; i < lineCollide.length; i++){
+      let l = lineCollide[i];
+      if(!this.colliding){
+        if(this.collide(l.x0, l.y0, l.x1, l.y1, this.posX+this.velX, this.posY+this.velY, this.r)){
+          this.colliding = true;
+          this.velA *= -1;
+        }
+      }
+    } 
+    
+    // PENDULUM MOVEMENT
+    this.accA = -g * sin(this.ang) / this.len;
+
+    // console.log("ang " + this.ang);
+    // console.log("velA " + this.velA);
+    
+    if(!this.colliding){
+      this.velA += this.accA;
+    } 
+    this.ang += this.velA; 
+    this.posX = this.len * sin(this.ang) + this.hposX;
+    this.posY = this.len * cos(this.ang) + this.hposY;     
+    
+  }
+}
     
   draw() {
     noStroke();
